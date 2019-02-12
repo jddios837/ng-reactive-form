@@ -1,5 +1,5 @@
 import { Component } from "@angular/core";
-import { FormControl, FormGroup, FormArray } from "@angular/forms";
+import { FormBuilder, FormControl, FormGroup, FormArray } from "@angular/forms";
 
 import { Product } from "../../models/product.interface";
 
@@ -40,29 +40,41 @@ import { Product } from "../../models/product.interface";
 })
 export class StockInventoryComponent {
 
-	products: Product[] = [
-		{ "id": 1, "price": 2800, "name": "Macbook Pro"},
-		{ "id": 2, "price": 3500, "name": "Samsum J5 PRO"},
-		{ "id": 3, "price": 1900, "name": "VIT P3400"},
-		{ "id": 4, "price": 343, "name": "Impresora"},
-	];
+	products: Product[] = [];
 
-	form = new FormGroup({
-		store: new FormGroup({
-			branch: new FormControl(''),
-			code: new FormControl('')
+	constructor(
+		private fb: FormBuilder
+	) {}
+
+	// form = new FormGroup({
+	// 	store: new FormGroup({
+	// 		branch: new FormControl(''),
+	// 		code: new FormControl('')
+	// 	}),
+	// 	selector: this.createStock({}),
+	// 	stock: new FormArray([
+	// 		this.createStock({ product_id: 1, quantity: 50 }),
+	// 		this.createStock({ product_id: 3, quantity: 34 })
+	// 	])
+	// });
+	
+	// Using FormBuilder, is more cleaner use this element than FormGroup
+	form = this.fb.group({
+		store: this.fb.group({
+			branch: '',
+			code: ''
 		}),
 		selector: this.createStock({}),
-		stock: new FormArray([
-			this.createStock({ product_id: 1, quantity: 50 }),
-			this.createStock({ product_id: 3, quantity: 34 })
+		stock: this.fb.array([
+			// this.createStock({ product_id: 1, quantity: 50 }),
+			// this.createStock({ product_id: 3, quantity: 34 })
 		])
 	});
 
 	createStock(stock) {
-		return new FormGroup({
-			product_id: new FormControl(parseInt(stock.product_id, 10) || ''),
-			quantity: new FormControl(stock.quantity || 10),
+		return this.fb.group({
+			product_id: parseInt(stock.product_id, 10) || '',
+			quantity: stock.quantity || 10,
 		})
 	}
 
