@@ -32,6 +32,10 @@ import { map } from "rxjs/operators";
 					(removed)="removeStock($event)">
 				</stock-productos>
 
+				<div class="stock-inventory__price">
+					Total: {{ total | currency:'USD':true}}
+				</div>
+
 				<div class="stock-inventory__buttons">
 					<button
 						type="submit"
@@ -48,7 +52,9 @@ import { map } from "rxjs/operators";
 export class StockInventoryComponent implements OnInit {
 
 	products: Product[] = [];
-	productMap: Map<number,Product>;
+	productMap: Map<number, Product>;
+
+	total: number;
 
 	constructor(
 		private fb: FormBuilder,
@@ -56,26 +62,44 @@ export class StockInventoryComponent implements OnInit {
 	) {}
 
 	ngOnInit() {
-		const cart = this.serviceStock.getCarItems();
-		const products = this.serviceStock.getProducts();
+		
 
 		this.serviceStock.getCarItems().subscribe((cart: Item[]) => {
-			// console.log('GetCarItems Stock ', cart);
 			cart.forEach(item => this.AddStock(item));
-		})
+
+			
+		});
 
 		this.serviceStock.getProducts().subscribe((products: Product[]) => {
-			// console.log('GetCarItems Stock ', cart);
 			const myMap = products.map<[number, Product]>(product => [product.id, product])
 			
 			this.productMap = new Map<number, Product>(myMap);
 			this.products = products;
-		})
+
+			this.calculateTotal(this.form.get('stock').value);
+			this.form.get('stock')
+				.valueChanges.subscribe(value => this.calculateTotal(value));
+		});
+
 		
+
+		
+
+		// const cart = this.serviceStock.getCarItems();
+		// const products = this.serviceStock.getProducts();
+
 		// forkJoin(cart, products).pipe(map(([cart, products]: [Item[], Product[]]) => {
 		// 	console.log('cart', cart);
 		// 	console.log('products', products);
 		// }));	
+	}
+
+	calculateTotal(value: Item[]) {
+		const total = value.reduce((prev, next) => {
+			return prev + (next.quantity * this.productMap.get(next.product_id).price);
+		  }, 0);
+
+		this.total = total;
 	}
 
 	// form = new FormGroup({
