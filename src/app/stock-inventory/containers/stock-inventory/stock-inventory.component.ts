@@ -33,7 +33,7 @@ import { map } from "rxjs/operators";
 				</stock-productos>
 
 				<div class="stock-inventory__price">
-					Total: {{ total | currency:'USD':true}}
+					Total: {{ total | currency:'USD':symbol}}
 				</div>
 
 				<div class="stock-inventory__buttons">

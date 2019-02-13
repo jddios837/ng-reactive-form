@@ -47,6 +47,23 @@ export class StockSelectorComponent implements OnInit {
 
   onAdd() {
     this.added.emit(this.parent.get('selector').value);
+
+    
+    this.parent.get('selector').reset({
+      product_id: '',
+      quantity: 10
+    })
+
+    // This is othe way to reset only one value
+    // this.parent.get('selector').patchValue({
+    //   product_id: ''
+    // })
+
+    // You need set all the values for the group
+    // this.parent.get('selector').reset({
+    //   product_id: '',
+    //   quantity: 10
+    // })
   }
 
 }
