@@ -7,6 +7,7 @@
 		{ "id": 1, "price": 2800, "name": "Macbook Pro"},
 		{ "id": 2, "price": 3500, "name": "Samsum J5 PRO"},
 		{ "id": 3, "price": 1900, "name": "VIT P3400"},
-		{ "id": 4, "price": 343, "name": "Impresora"}
+		{ "id": 4, "price": 343, "name": "Impresora"},
+		{ "id": 5, "price": 23, "name": "Raton Inalambrico"}
 	]
 }
