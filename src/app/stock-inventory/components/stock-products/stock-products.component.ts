@@ -62,6 +62,7 @@ export class StockProductsComponent implements OnInit {
   }
 
   getProduct(id) {
+    // console.log('getProduct', this.map);
     return this.map.get(id);
   }
 

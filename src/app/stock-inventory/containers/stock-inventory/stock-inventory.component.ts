@@ -120,7 +120,7 @@ export class StockInventoryComponent implements OnInit {
 			branch: '',
 			code: ''
 		}),
-		selector: this.createStock({}),
+		selector: this.createStock({product_id: 0, }),
 		stock: this.fb.array([
 			// this.createStock({ product_id: 1, quantity: 50 }),
 			// this.createStock({ product_id: 3, quantity: 34 })
